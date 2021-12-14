@@ -83,7 +83,9 @@ def check_filename(file_name):
                     .replace('\b', '') \
                     .replace('\f', '') \
                     .replace('\t', '') \
-                    .replace('\r', '')
+                    .replace('\r', '') \
+                    .replace('&', '') \
+                    .replace('？','')
 
 
 class Cookie:
@@ -443,8 +445,8 @@ class GeekCrawler:
             comments: 评论相关数据
         Returns:
         """
-        if not file_type: file_type = '.md'
-        dir_path = pathlib.PurePosixPath() / dir_name
+        if not file_type: file_type = '.html'
+        dir_path = pathlib.PurePosixPath() / (dir_name.replace(" & ",'').rstrip())
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
         filename = check_filename(filename)
@@ -537,10 +539,10 @@ if __name__ == "__main__":
     exclude = []
 
     # 需要保存文件的后缀名，尽量选 .md 或者 .html
-    file_type = '.md'
+    file_type = '.html'
 
     # 是否获取评论信息，目前暂时设置为不获取，因为 md 文档中评论显示不太好看，如果需要获取评论的话请设置保存文本为 HTML（样式好看些）
-    get_comments = False  # True
+    get_comments = True  # True
 
     try:
         FINISH_ARTICLES = _load_finish_article()
